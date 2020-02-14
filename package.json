@@ -18,5 +18,6 @@
   "homepage": "https://github.com/neeraj-hash/app-ip_address#readme",
   "dependencies": {
     "ip-cidr": "^2.0.7"
-  }
+  },
+  "devDependencies": {}
 }
