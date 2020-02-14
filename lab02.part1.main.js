@@ -63,16 +63,6 @@ format.ipv4 = firstIpAddress;
   return callback(format, callbackError);
 }
 
-/**
- * Adds two numbers together
- * 
- * @param {number} first The First Number
- * @param {number} second The Second Number
- * @returns {number}
- */
-function add(first, second) {
-  return first + second;
-}
 /*
   This section is used to test function and log any errors.
   We will make several positive and negative tests.
