@@ -28,6 +28,17 @@ function getFirstIpAddress(cidrStr, callback) {
     from: 1,
     limit: 1
   };
+  /**
+ * An object which will represent two strings ipv4 and ipv6
+ * 
+ * @param {ipv4} ipv4 address
+ * @param {ipv6} ipv6 address
+ * 
+ */
+const netFormats = {
+  ipv4: null,
+  ipv6: null,
+  };
 
   // Use the object's isValid() method to verify the passed CIDR.
   if (!cidr.isValid()) {
@@ -38,14 +49,30 @@ function getFirstIpAddress(cidrStr, callback) {
     // Notice the destructering assignment syntax to get the value of the first array's element.
     [firstIpAddress] = cidr.toArray(options);
   }
-  // Call the passed callback function.
-  // Node.js convention is to pass error data as the first argument to a callback.
+  
+/**
+ * It will create an object for net formats which will include ipv4 and ipv6 as a string attribute
+ **/
+const format = Object.create(netFormats);
+format.ipv4 = firstIpAddress;
+(firstIpAddress == null) ? format.ipv6 = null: format.ipv6 = getIpv4MappedIpv6Address(firstIpAddress);
+// Node.js convention is to pass error data as the first argument to a callback.
   // The IAP convention is to pass returned data as the first argument and error
   // data as the second argument to the callback function.
-  return callback(firstIpAddress, callbackError);
+  // Call the passed callback function.
+  return callback(format, callbackError);
 }
 
-
+/**
+ * Adds two numbers together
+ * 
+ * @param {number} first The First Number
+ * @param {number} second The Second Number
+ * @returns {number}
+ */
+function add(first, second) {
+  return first + second;
+}
 /*
   This section is used to test function and log any errors.
   We will make several positive and negative tests.
@@ -69,8 +96,8 @@ function main() {
       if (error) {
         console.error(`  Error returned from GET request: ${error}`);
       }
-      console.log(`  Response returned from GET request: ${data}`);
-    });
+        console.log(`  Response returned from GET request: ${`{"ipv4":"${data.ipv4}","ipv6":"${data.ipv6}"}`} `);
+       });
   }
   // Iterate over sampleIpv4s and pass the element's value to getIpv4MappedIpv6Address().
   for (let i = 0; i < sampleIpv4sLen; i++) {
